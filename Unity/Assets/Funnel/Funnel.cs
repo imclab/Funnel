@@ -75,12 +75,18 @@ public class Funnel : MonoBehaviour
         // Grab a slot.
         slotIndex = slotCount++;
 
-        // Create a render texture and assign it to the camera.
+        // Create a render texture.
         renderTexture = new RenderTexture (screenWidth, screenHeight, 24);
-        camera.targetTexture = renderTexture;
 
-        // Reset the aspect ratio.
-        camera.ResetAspect ();
+        // Assign the render texture to the cameras that has no target.
+        foreach (var cam in Camera.allCameras)
+        {
+            if (cam.targetTexture == null)
+            {
+                cam.targetTexture = renderTexture;
+                cam.ResetAspect ();
+            }
+        }
     }
 
     void OnDisable ()
